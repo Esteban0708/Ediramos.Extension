@@ -1,0 +1,21 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.6.2" />
+	<PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="11.1.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Ediramos.Extension.Aplicacion\Ediramos.Extension.Aplicacion.csproj" />
+    <ProjectReference Include="..\Ediramos.Extension.Dominio\Ediramos.Extension.Dominio.csproj" />
+    <ProjectReference Include="..\Ediramos.Extension.Infraestructura\Ediramos.Extension.Infraestructura.csproj" />
+	  
+  </ItemGroup>
+
+</Project>

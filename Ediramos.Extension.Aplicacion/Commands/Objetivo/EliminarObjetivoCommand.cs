@@ -1,0 +1,19 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using MediatR;
+
+namespace Ediramos.Extension.Aplicacion.Commands.Objetivo
+{
+    public class EliminarObjetivoCommand : IRequest<int>
+    {
+        public int IdObjetivo { get; }
+
+        public EliminarObjetivoCommand(int idObjetivo)
+        {
+            IdObjetivo = idObjetivo;
+        }
+    }
+}
