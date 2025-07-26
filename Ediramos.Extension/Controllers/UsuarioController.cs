@@ -37,8 +37,24 @@ namespace Ediramos.Extension.API.Controllers
 
             var resultado = await _mediator.Send(new ObtenerInfoUsuarioQuery(documento));
 
-            return Ok(new { encontrado = false, mensaje = "No se encontró información para el documento." });
+            if (resultado == null || !resultado.Any())
+                return Ok(new { encontrado = false, mensaje = "No se encontró información para el documento." });
 
+            return Ok(resultado); 
         }
+        [HttpGet("BuscarDocentes")]
+        public async Task<IActionResult> BuscarDocentes([FromQuery] string filtro)
+        {
+            if (string.IsNullOrWhiteSpace(filtro))
+                return BadRequest("El filtro no puede estar vacío.");
+
+            var resultado = await _mediator.Send(new ObtenerDocenteQuery(filtro));
+
+            if (resultado == null || !resultado.Any())
+                return Ok(new { encontrado = false, mensaje = "No se encontraron docentes." });
+
+            return Ok(resultado);
+        }
+
     }
 }

@@ -10,5 +10,7 @@ namespace Ediramos.Extension.Infraestructura.Config
     {
         public string? OracleConnection { get; set; }
         public string? SqlServerConnection { get; set; }
+        public string? MongoConnection { get; set; }
+        public string? MongoDatabase { get; set; }
     }
 }

@@ -41,7 +41,7 @@ namespace Ediramos.Extension.Infraestructura.Repositorios
             var parameters = new DynamicParameters();
             parameters.Add("@IdSesion", id);
 
-            await connection.ExecuteAsync("ELIMINARSESION", parameters, commandType: System.Data.CommandType.StoredProcedure);
+            await connection.ExecuteAsync("ELIMINAR_SECCION", parameters, commandType: System.Data.CommandType.StoredProcedure);
         }
 
     }

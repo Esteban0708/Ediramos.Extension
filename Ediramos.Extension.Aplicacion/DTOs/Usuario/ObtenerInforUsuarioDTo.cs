@@ -19,7 +19,7 @@ namespace Ediramos.Extension.Aplicacion.DTOs.Usuario
 
         public string Eps { get; set; }
 
-        public string Estatus { get; set; }
+        public string TipoVinculacion { get; set; }
         public bool EsLider { get; set; }
     }
 }

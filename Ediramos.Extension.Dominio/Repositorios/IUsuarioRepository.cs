@@ -12,5 +12,6 @@ namespace Ediramos.Extension.Dominio.Repositorios
 
         Task<List<InforUsuario>> ObtenerInfoUsuarioAsync(string documento);
         Task<List<CorreoUsuario>> ObtenerCorreosPorPegeIdsYDocumentosAsync(List<int> pegeIds, List<string> documentos);
+        Task<List<ConsultarDocentes>> BuscarDocentesAsync(string filtro);
     }
 }

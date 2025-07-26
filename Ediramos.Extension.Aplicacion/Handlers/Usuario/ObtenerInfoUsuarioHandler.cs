@@ -29,7 +29,7 @@ namespace Ediramos.Extension.Aplicacion.Handlers.Usuario
                 Dependencia = u.Dependencia,
                 Programa = u.Programa,
                 Eps = u.Eps,
-                Estatus = u.Estatus
+                TipoVinculacion = u.Estatus
             }).ToList();
         }
     }

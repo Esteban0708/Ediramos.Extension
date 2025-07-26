@@ -11,7 +11,7 @@ namespace Ediramos.Extension.Dominio.Repositorios
    public interface IInscripcionGrupoRepository
    {
         Task<int> CrearGrupoAsync(string titulo, int? idAreaTrabajo);
-        Task AgregarIntegranteAsync(int idGrupo, int pegeId, string documento, string nombreCompleto, bool esLider);
+        Task AgregarIntegranteAsync(int idGrupo, int pegeId, string documento, string nombreCompleto, bool esLider, string tipoVinculacion);
         Task AgregarObjetivoAsync(int idGrupo, string descripcion);
         Task<(List<ConsultarGrupo>, List<ConsultarInterno>, List<ConsultarExterno>)> ObtenerInscripcionGrupoAsync(bool incluirTodos);
         Task<List<ObjetivoGrupo>> ObtenerObjetivosGrupoAsync(int idGrupo);

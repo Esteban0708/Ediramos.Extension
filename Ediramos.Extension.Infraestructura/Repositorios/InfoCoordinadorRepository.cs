@@ -70,7 +70,7 @@ namespace Ediramos.Extension.Infraestructura.Repositorios
                 {
                     Pege_id = reader.GetInt32(reader.GetOrdinal("PEGE_ID")),
                     Documento = reader.GetString(reader.GetOrdinal("DOCUMENTO")),
-                    Estp_semestreactual = reader.GetInt32(reader.GetOrdinal("ESTP_SEMESTREACTUAL"))
+                    Estp_semestreactual = reader.IsDBNull(reader.GetOrdinal("ESTP_SEMESTREACTUAL"))? 0 : reader.GetInt32(reader.GetOrdinal("ESTP_SEMESTREACTUAL"))
                 });
             }
             return result;

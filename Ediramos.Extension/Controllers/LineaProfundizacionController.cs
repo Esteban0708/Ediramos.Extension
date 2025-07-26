@@ -37,7 +37,7 @@ namespace Ediramos.Extension.API.Controllers
         [HttpPut("EditarLinea")]
         public async Task<IActionResult> EditarLinea([FromBody] EditarLineaDTo dto)
         {
-            if(dto == null || dto.IdLineLinea <= 0)
+            if(dto == null || dto.IdLineaProfundizacion <= 0)
                 return BadRequest("Datos inválidos");
 
             var command = new EditarLineaCommand(dto);

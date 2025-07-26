@@ -35,7 +35,8 @@ namespace Ediramos.Extension.Aplicacion.Handlers.InscripcionGrupo
                     integrante.Pege_id,
                     integrante.Documento,
                     integrante.NombreCompleto,
-                    integrante.EsLider
+                    integrante.EsLider,
+                    integrante.TipoVinculacion
                 );
             }
 
@@ -43,24 +44,54 @@ namespace Ediramos.Extension.Aplicacion.Handlers.InscripcionGrupo
             {
                 await _repository.AgregarObjetivoAsync(idGrupo, objetivo);
             }
+           
+                var pegeIds = dto.Integrantes.Select(i => i.Pege_id).ToList();
+                var documentos = dto.Integrantes.Select(i => i.Documento).ToList();
 
-            var pegeIds = dto.Integrantes.Select(i => i.Pege_id).ToList();
-            var documentos = dto.Integrantes.Select(i => i.Documento).ToList();
+                var correosBD = await _mediator.Send(new ObtenerCorreosQuery(pegeIds, documentos));
 
-            var correosBD = await _mediator.Send(new ObtenerCorreosQuery(pegeIds, documentos));
-
-            var listaCorreos = correosBD.Select(c => c.Correo).Distinct().ToList();
+                var listaCorreos = correosBD
+                    .Select(c => c.Correo?.Trim())
+                    .Where(c => !string.IsNullOrEmpty(c) && CorreoEsValido(c))
+                    .Distinct()
+                    .ToList();
 
             if (listaCorreos.Any())
             {
-                var cuerpo = $@"
-                <p><Estiamdo./p>
-                <p>Se ha realizado correctamente la inscripción del grupo <strong>{dto.Titulo}</strong>.</p>
-                <p>Te notificamos que formas parte de este proceso dentro del sistema de extensión y proyección social.</p>
-                <p>Gracias por tu participación.</p>";
-                await _correoService.EnviarCorreoGenericoAsync(listaCorreos, $"Inscripción al grupo: {dto.Titulo}", cuerpo);
+                try
+                {
+                    var cuerpo = $@"
+            <p>Se ha realizado correctamente la inscripción del grupo <strong>{dto.Titulo}</strong>.</p>
+            <p>Te notificamos que formas parte de este proceso dentro del sistema de extensión y proyección social.</p>
+            <p>Gracias por tu participación.</p>";
+
+                    await _correoService.EnviarCorreoGenericoAsync(listaCorreos, $"Inscripción al grupo: {dto.Titulo}", cuerpo);
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("⚠️ Error al enviar el correo: " + ex.Message);
+                }
             }
+            else
+            {
+                Console.WriteLine("⚠️ No se enviaron correos porque ninguno de los integrantes tiene correo válido.");
+            }
+
+
             return idGrupo;
         }
+        private bool CorreoEsValido(string correo)
+        {
+            try
+            {
+                var addr = new System.Net.Mail.MailAddress(correo);
+                return addr.Address == correo;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
     }
 }

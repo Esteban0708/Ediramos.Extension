@@ -32,5 +32,15 @@ namespace Ediramos.Extension.API.Controllers
             var clases = await _mediator.Send(query);
             return Ok(clases);
         }
+        [HttpDelete("EliminarClase/{id}")]
+        public async Task<IActionResult> EliminarClase(int id)
+        {
+            var result = await _mediator.Send(new EliminarClaseCommand(id));
+
+            if (result == 1)
+                return Ok(new { mensaje = "Clase eliminada correctamente" });
+
+            return BadRequest("No se pudo eliminar la clase");
+        }
     }
 }

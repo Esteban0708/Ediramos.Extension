@@ -218,26 +218,69 @@ namespace Ediramos.Extension.Infraestructura.Repositorios
 
                 foreach (var doc in documentos)
                 {
-                    var correo = await sql.QueryFirstOrDefaultAsync<string>(
-                        "OBTENERCORREOUE",
-                        new { Documento = doc },
-                        commandType: CommandType.StoredProcedure
-                    );
-
-                    if (!string.IsNullOrWhiteSpace(correo))
+                    if (long.TryParse(doc, out long documentoLong))
                     {
-                        correos.Add(new CorreoUsuario
+                        var correo = await sql.QueryFirstOrDefaultAsync<string>(
+                            "OBTENERCORREOUE",
+                            new { Documento = documentoLong },
+                            commandType: CommandType.StoredProcedure
+                        );
+
+                        if (!string.IsNullOrWhiteSpace(correo))
                         {
-                            Pege_id = 0,
-                            Correo = correo
-                        });
+                            correos.Add(new CorreoUsuario
+                            {
+                                Pege_id = 0,
+                                Correo = correo
+                            });
+                        }
                     }
+
                 }
             }
 
             return correos;
         }
-       
+        public async Task<List<ConsultarDocentes>> BuscarDocentesAsync(string filtro)
+        {
+            using var connection = _connectionString.CreateOracleConnection();
+            await connection.OpenAsync();
+
+            using var command = connection.CreateCommand();
+            command.CommandText = "DES_EDRAMOS.CONSULTARDOCENTE"; 
+            command.CommandType = CommandType.StoredProcedure;
+
+            var param1 = command.CreateParameter();
+            param1.ParameterName = "p_documento";
+            param1.DbType = DbType.String;
+            param1.Value = filtro;
+            param1.Direction = ParameterDirection.Input;
+            command.Parameters.Add(param1);
+
+            var param2 = command.CreateParameter();
+            param2.ParameterName = "p_resultado";
+            ((Oracle.ManagedDataAccess.Client.OracleParameter)param2).OracleDbType = Oracle.ManagedDataAccess.Client.OracleDbType.RefCursor;
+            param2.Direction = ParameterDirection.Output;
+            command.Parameters.Add(param2);
+
+            var resultado = new List<ConsultarDocentes>();
+            using var reader = await command.ExecuteReaderAsync();
+
+            while (await reader.ReadAsync())
+            {
+                resultado.Add(new ConsultarDocentes
+                {
+                    pege_id = reader["PEGE_ID"] != DBNull.Value ? Convert.ToInt32(reader["PEGE_ID"]) : 0,
+                    documento = reader["DOCUMENTO"]?.ToString(),
+                    nombreCompleto = reader["NOMBRE_COMPLETO"]?.ToString(),
+                    programa = reader["PROGRAMA"]?.ToString(),
+                    dependencia = reader["DEPENDENCIA"]?.ToString()
+                });
+            }
+
+            return resultado;
+        }
+
 
     }
 }

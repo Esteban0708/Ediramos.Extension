@@ -1,4 +1,5 @@
-﻿using Ediramos.Extension.Aplicacion.Commands.Producto;
+﻿using Ediramos.Extension.Aplicacion.Commands.Division;
+using Ediramos.Extension.Aplicacion.Commands.Producto;
 using Ediramos.Extension.Aplicacion.DTOs.Producto;
 using Ediramos.Extension.Aplicacion.Queries;
 using MediatR;
@@ -32,6 +33,16 @@ namespace Ediramos.Extension.API.Controllers
             var query = new ObtenerProductoQuery();
             var productos = await _mediator.Send(query);
             return Ok(productos);
+        }
+        [HttpDelete("EliminarProducto/{id}")]
+        public async Task<IActionResult> EliminarProducto(int id)
+        {
+            var result = await _mediator.Send(new EliminarProductoCommand(id));
+
+            if (result == 1)
+                return Ok(new { mensaje = "Producto eliminada correctamente" });
+
+            return BadRequest("No se pudo eleiminar la Division");
         }
     }
 }

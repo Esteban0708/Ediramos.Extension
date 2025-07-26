@@ -12,5 +12,7 @@ namespace Ediramos.Extension.Aplicacion.DTOs.InscripcionGrupo
         public string Documento { get; set; }
         public string NombreCompleto { get; set; }
         public bool EsLider { get; set; }
+        public string TipoVinculacion { get; set; }
+
     }
 }

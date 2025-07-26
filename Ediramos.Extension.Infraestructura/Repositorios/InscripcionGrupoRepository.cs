@@ -38,7 +38,7 @@ namespace Ediramos.Extension.Infraestructura.Repositorios
             return parametros.Get<int>("@NuevoIdGrupo");
         }
 
-        public async Task AgregarIntegranteAsync(int idGrupo, int pegeId, string documento, string nombreCompleto, bool esLider)
+        public async Task AgregarIntegranteAsync(int idGrupo, int pegeId, string documento, string nombreCompleto, bool esLider, string tipoVinculacion)
         {
             using var conection = _connectionString.CreateSqlServerConnection();
 
@@ -48,7 +48,9 @@ namespace Ediramos.Extension.Infraestructura.Repositorios
                 PEGE_ID = pegeId,
                 DocumentoIdentidad = documento,
                 NombreCompleto = nombreCompleto,
-                EsLider = esLider
+                EsLider = esLider,
+                TipoVinculacion = tipoVinculacion
+
             };
 
             await conection.ExecuteAsync("AGREGARINTEGRANTEGRUPO", parametros, commandType: CommandType.StoredProcedure);

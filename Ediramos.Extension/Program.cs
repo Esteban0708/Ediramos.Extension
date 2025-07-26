@@ -1,19 +1,30 @@
 using System.Reflection;
 using Ediramos.Extension.Aplicacion.Commands.Objetivo;
 using Ediramos.Extension.Aplicacion.Commands.Usuario;
+using Ediramos.Extension.Aplicacion.Handlers.Proyecto;
+using Ediramos.Extension.Aplicacion.Interfaces;
 using Ediramos.Extension.Aplicacion.Servicios;
 using Ediramos.Extension.Aplicacion.Validaciones.Convocatoria;
 using Ediramos.Extension.Aplicacion.Validaciones.Objetivo;
 using Ediramos.Extension.Aplicacion.Validaciones.RolPermiso;
 using Ediramos.Extension.Aplicacion.Validaciones.Usuario;
+using Ediramos.Extension.Dominio.Entidades;
 using Ediramos.Extension.Dominio.Repositorios;
 using Ediramos.Extension.Infraestructura.Config;
 using Ediramos.Extension.Infraestructura.Persistencia;
 using Ediramos.Extension.Infraestructura.Repositorios;
 using FluentValidation;
 using MediatR;
+using Microsoft.AspNetCore.Http.Features;
+using MongoDB.Bson;
+using MongoDB.Bson.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Logging.ClearProviders();
+builder.Logging.AddConsole();    
+builder.Logging.AddDebug();      
+
 
 builder.Services.AddCors(options =>
 {
@@ -27,6 +38,10 @@ builder.Services.AddCors(options =>
 });
 
 builder.Services.AddMediatR(AppDomain.CurrentDomain.GetAssemblies());
+builder.Services.Configure<FormOptions>(options =>
+{
+    options.MultipartBodyLengthLimit = 104857600; 
+});
 
 
 builder.Services.AddControllers();
@@ -60,13 +75,16 @@ builder.Services.AddScoped<IPoblacionGrupoRepository, PoblacionGrupoRepository>(
 builder.Services.AddScoped<IClaseRepository, ClaseRepository>();
 builder.Services.AddScoped<IProductoRepository, ProductoRepository>();
 builder.Services.AddScoped<IUnidadMedidaRepository, UnidadMedidaRepository>();
+builder.Services.AddScoped<IProyectoRepository, ProyectoRepository>();
+builder.Services.AddScoped<IProyectoAnexoRepository, ProyectoAnexoRepository>();
+builder.Services.AddScoped<IAlmacenamientoMongo, AlmacenamientoMongo>();
+builder.Services.AddScoped<IEvaluadorRespository, EvaluadorRepository>();
 
 builder.Services.AddValidatorsFromAssemblyContaining<CrearObjetivoValidator>();
 builder.Services.AddValidatorsFromAssemblyContaining<LoginValidator>();
 builder.Services.AddValidatorsFromAssemblyContaining<BuscadorValidator>();
 builder.Services.AddValidatorsFromAssemblyContaining<CrearConvocatoriaValidator> ();
 builder.Services.AddValidatorsFromAssemblyContaining<CrearRolValidator>();
-
 
 builder.Services.AddTransient<CorreoService>();
 

@@ -35,5 +35,11 @@ namespace Ediramos.Extension.Infraestructura.Repositorios
             var unidadMedida = await connection.QueryAsync<UnidadMedida>("OBTENERUNIDADMEDIDA");
             return unidadMedida.ToList();
         }
+        public async Task EliminarUnidadMedidaAsync(int id)
+        {
+            using var connection = _connectionString.CreateSqlServerConnection();
+            var parameters = new DynamicParameters();
+            await connection.ExecuteAsync("ELIMINAR_UNIDAD", parameters, commandType: System.Data.CommandType.StoredProcedure);
+        }
     }
 }

@@ -12,6 +12,8 @@ namespace Ediramos.Extension.Aplicacion.Servicios
 
         public async Task EnviarCorreoGenericoAsync(List<string> correosDestino, string asunto, string cuerpoHtmlPersonalizado)
         {
+            if (correosDestino == null || !correosDestino.Any()) return;
+
             var mensaje = new MimeMessage();
             mensaje.From.Add(new MailboxAddress("Sistema de Convocatorias", correoRemitente));
 

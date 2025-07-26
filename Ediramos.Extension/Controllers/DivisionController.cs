@@ -25,7 +25,7 @@ namespace Ediramos.Extension.API.Controllers
 
             var command = new CrearDivisionCommand(dto);
             var id = await _mediator.Send(command);
-            return Ok(new { Id = id, Mensaje = "Sesión creada con éxito" });
+            return Ok(new { Id = id, Mensaje = "División creada con éxito" });
         }
         [HttpGet("obtener")]
         public async Task<IActionResult> ObtenerDivision()
@@ -33,6 +33,16 @@ namespace Ediramos.Extension.API.Controllers
             var command = new ObtenerDivisionQuery();
             var divisiones = await _mediator.Send(command);
             return Ok(divisiones);
+        }
+        [HttpDelete("EliminarDivision/{id}")]
+        public async Task<IActionResult> EliminarDivision(int id)
+        {
+            var result = await _mediator.Send(new EliminarDivisionCommand(id));
+
+            if (result == 1)
+                return Ok(new { mensaje = "División eliminada correctamente" });
+
+            return BadRequest("No se pudo eleiminar la Division");
         }
     }
 }

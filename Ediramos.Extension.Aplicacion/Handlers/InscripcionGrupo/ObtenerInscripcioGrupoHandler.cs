@@ -41,8 +41,10 @@ namespace Ediramos.Extension.Aplicacion.Handlers.InscripcionGrupo
             }
 
             var dicUsuarios = infoUsuarios
-                .Where(u => !string.IsNullOrEmpty(u.Documento))
-                .ToDictionary(u => u.Documento);
+            .Where(u => !string.IsNullOrEmpty(u.Documento))
+            .GroupBy(u => u.Documento)
+            .ToDictionary(g => g.Key, g => g.First());
+
 
             var resultadoParalelo = gruposBase
                 .AsParallel()
@@ -55,7 +57,8 @@ namespace Ediramos.Extension.Aplicacion.Handlers.InscripcionGrupo
                         .Select(i => new ObtenerInforUsuarioDTo
                         {
                             Documento = i.DocumentoIdentidad,
-                            EsLider = i.EsLider ?? false
+                            EsLider = i.EsLider ?? false, 
+                            TipoVinculacion = i.TipoVinculacion
                         }).ToList();
 
                     var externos = externosBase
@@ -84,7 +87,7 @@ namespace Ediramos.Extension.Aplicacion.Handlers.InscripcionGrupo
                                 Dependencia = datos.Dependencia,
                                 Programa = datos.Programa,
                                 Eps = datos.Eps,
-                                Estatus = datos.Estatus,
+                                TipoVinculacion = i.TipoVinculacion ?? datos.TipoVinculacion,
                                 EsLider = i.EsLider
                             };
                         })

@@ -10,6 +10,8 @@ namespace Ediramos.Extension.Dominio.Repositorios
     public interface IUnidadMedidaRepository
     {
         Task<int> CrearUnidadMedidaAsync(string Nombre, string Descripcion);
-        Task<List<UnidadMedida>> ObtenerUnidadMedidaAsync(); 
+        Task<List<UnidadMedida>> ObtenerUnidadMedidaAsync();
+
+        Task EliminarUnidadMedidaAsync(int id);
     }
 }

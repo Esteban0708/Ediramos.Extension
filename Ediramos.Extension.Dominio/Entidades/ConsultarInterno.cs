@@ -11,5 +11,6 @@ namespace Ediramos.Extension.Dominio.Entidades
         public int IdGrupo { get; set; }
         public string DocumentoIdentidad { get; set; }
         public bool? EsLider { get; set; }
+        public string TipoVinculacion { get; set; }
     }
 }

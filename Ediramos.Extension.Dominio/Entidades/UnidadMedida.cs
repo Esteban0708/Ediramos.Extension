@@ -11,6 +11,6 @@ namespace Ediramos.Extension.Dominio.Entidades
         public int IdUnidadMedida { get; set; }
         public string Nombre { get; set; }
         public string Descripcion { get; set; }
-        public string Estado { get; set; }
+        public bool Estado { get; set; }
     }
 }

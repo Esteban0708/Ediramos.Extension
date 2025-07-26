@@ -39,9 +39,9 @@ namespace Ediramos.Extension.Infraestructura.Repositorios
         {
             using var connection = _connectionString.CreateSqlServerConnection();
             var parameters = new DynamicParameters();
-            parameters.Add("@IdGrupo", id);
+            parameters.Add("@IdGrupoDane", id);
 
-            await connection.ExecuteAsync("ELIMINARGRUPO", parameters, commandType: System.Data.CommandType.StoredProcedure);
+            await connection.ExecuteAsync("ELIMINAR_GRUPODANE", parameters, commandType: System.Data.CommandType.StoredProcedure);
         }
     }
 }

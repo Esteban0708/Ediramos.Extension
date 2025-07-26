@@ -10,6 +10,6 @@ namespace Ediramos.Extension.Aplicacion.DTOs.InscripcionGrupo
     {
         public int Pege_id { get; set; }
         public string Documento { get; set; }
-        public int Estp_semestreactual { get; set; }
+        public int? Estp_semestreactual { get; set; }
     }
 }

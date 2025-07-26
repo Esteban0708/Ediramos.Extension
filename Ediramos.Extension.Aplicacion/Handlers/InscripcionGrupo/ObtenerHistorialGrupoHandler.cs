@@ -44,8 +44,10 @@ namespace Ediramos.Extension.Aplicacion.Handlers.InscripcionGrupo
             }
 
             var dicUsuarios = infoUsuarios
-                .Where(u => !string.IsNullOrEmpty(u.Documento))
-                .ToDictionary(u => u.Documento);
+     .Where(u => !string.IsNullOrEmpty(u.Documento))
+     .GroupBy(u => u.Documento)
+     .Select(g => g.First())
+     .ToDictionary(u => u.Documento);
 
             var resultado = historialBase
                 .AsParallel()
@@ -64,7 +66,7 @@ namespace Ediramos.Extension.Aplicacion.Handlers.InscripcionGrupo
                                 Dependencia = datos.Dependencia,
                                 Programa = datos.Programa,
                                 Eps = datos.Eps,
-                                Estatus = datos.Estatus,
+                                TipoVinculacion = datos.TipoVinculacion,
                                 EsLider = i.EsLider ?? false 
                             };
                         })

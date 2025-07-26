@@ -1,4 +1,5 @@
-﻿using Ediramos.Extension.Aplicacion.Commands.Grupo;
+﻿using Ediramos.Extension.Aplicacion.Commands.Division;
+using Ediramos.Extension.Aplicacion.Commands.Grupo;
 using Ediramos.Extension.Aplicacion.DTOs.Grupo;
 using Ediramos.Extension.Aplicacion.Queries;
 using MediatR;
@@ -30,6 +31,16 @@ namespace Ediramos.Extension.API.Controllers
             var command = new ObtenerGrupoQuery();
             var grupos = await _mediator.Send(command);
             return Ok(grupos);
+        }
+        [HttpDelete("EliminarGrupo/{id}")]
+        public async Task<IActionResult> EliminarGrupo(int id)
+        {
+            var result = await _mediator.Send(new EliminarGrupoCommand(id));
+
+            if (result == 1)
+                return Ok(new { mensaje = "Grupo eliminada correctamente" });
+
+            return BadRequest("No se pudo eleiminar la Division");
         }
     }
 }

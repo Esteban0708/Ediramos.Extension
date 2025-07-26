@@ -21,7 +21,7 @@ namespace Ediramos.Extension.Aplicacion.Handlers.Linea
         {
             var dto = request.DTO;
             return await _repository.EditarLineaAsync(
-                dto.IdLineLinea,
+                dto.IdLineaProfundizacion,
                 dto.Nombre
             );
         }

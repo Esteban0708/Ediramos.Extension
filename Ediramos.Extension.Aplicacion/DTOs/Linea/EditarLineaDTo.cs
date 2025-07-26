@@ -8,7 +8,7 @@ namespace Ediramos.Extension.Aplicacion.DTOs.Linea
 {
     public class EditarLineaDTo
     {
-        public int IdLineLinea { get; set; }
+        public int IdLineaProfundizacion { get; set; }
         public string Nombre { get; set; }
     }
 }

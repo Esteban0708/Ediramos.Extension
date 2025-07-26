@@ -41,7 +41,7 @@ namespace Ediramos.Extension.Infraestructura.Repositorios
             var parameters = new DynamicParameters();
             parameters.Add("@IdDivision", id);
 
-            await connection.ExecuteAsync("ELIMINARDIVISION", parameters, commandType: System.Data.CommandType.StoredProcedure);
+            await connection.ExecuteAsync("ELIMINAR_DIVISION", parameters, commandType: System.Data.CommandType.StoredProcedure);
         }
     }
 }
