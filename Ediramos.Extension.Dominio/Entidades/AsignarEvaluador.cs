@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace Ediramos.Extension.Dominio.Entidades
@@ -9,6 +10,8 @@ namespace Ediramos.Extension.Dominio.Entidades
     public class AsignarEvaluador
     {
         public int IdProyecto { get; set; }
+        [JsonPropertyName("pege_id")]
+
         public int PEGE_ID { get; set; }
         public string Documento { get; set; } 
         public string NombreCompleto { get; set; } 

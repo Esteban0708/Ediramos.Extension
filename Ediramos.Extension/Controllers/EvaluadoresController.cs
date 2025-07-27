@@ -1,5 +1,6 @@
 ﻿using Ediramos.Extension.Aplicacion.Commands.Evaluador;
 using Ediramos.Extension.Aplicacion.DTOs.Evaluador;
+using Ediramos.Extension.Aplicacion.Queries;
 using Ediramos.Extension.Dominio.Entidades;
 using MediatR;
 using Microsoft.AspNetCore.Http;
@@ -20,13 +21,27 @@ namespace Ediramos.Extension.API.Controllers
         [HttpPost("AsignarEvaluadores")]
         public async Task<IActionResult> AsignarEvaluadores([FromBody] AsignarEvaluadorDTo evaluador)
         {
-            var resultado = await _mediator.Send(new AsignarEvaluadorCommand(evaluador));
-
-            if (resultado)
+            try
             {
+                var resultado = await _mediator.Send(new AsignarEvaluadorCommand(evaluador));
+
                 return Ok(new { message = "Evaluador asignado correctamente." });
             }
-            return BadRequest(new { message = "Error al asignar el evaluador." });
+            catch (InvalidOperationException ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
+            catch
+            {
+                return BadRequest(new { message = "Error al asignar el evaluador." });
+            }
+        }
+
+        [HttpGet("EvaluadoresPorProyecto/{idProyecto}")]
+        public async Task<IActionResult> ObtenerEvaluadoresPorProyecto(int idProyecto)
+        {
+            var resultado = await _mediator.Send(new ObtenerEvaluadoresPorProyectoQuery(idProyecto));
+            return Ok(resultado);
         }
     }
 }

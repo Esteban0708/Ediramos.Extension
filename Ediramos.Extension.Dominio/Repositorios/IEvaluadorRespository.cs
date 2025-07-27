@@ -10,6 +10,8 @@ namespace Ediramos.Extension.Dominio.Repositorios
     public interface IEvaluadorRespository
     {
         Task<bool> AsignarEvaluadorAsync(AsignarEvaluador evaluador);
+        Task<List<ObtenerEvaluador>> ObtenerEvaluadoresPorProyectoAsync(int idProyecto);
+
 
     }
 }
