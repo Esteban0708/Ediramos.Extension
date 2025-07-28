@@ -43,5 +43,11 @@ namespace Ediramos.Extension.API.Controllers
             var resultado = await _mediator.Send(new ObtenerEvaluadoresPorProyectoQuery(idProyecto));
             return Ok(resultado);
         }
+        [HttpGet("ProyectosPorJurado/{documento}")]
+        public async Task<ActionResult<List<ProyectoJuradoDTo>>> ObtenerProyectosPorJurado(string documento)
+        {
+            var resultado = await _mediator.Send(new ObtenerProyectosPorJuradoQuery(documento));
+            return Ok(resultado);
+        }
     }
 }

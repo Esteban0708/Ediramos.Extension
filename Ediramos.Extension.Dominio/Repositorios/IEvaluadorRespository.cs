@@ -12,6 +12,7 @@ namespace Ediramos.Extension.Dominio.Repositorios
         Task<bool> AsignarEvaluadorAsync(AsignarEvaluador evaluador);
         Task<List<ObtenerEvaluador>> ObtenerEvaluadoresPorProyectoAsync(int idProyecto);
 
+        Task<List<ProyectoJuradoCompleto>> ObtenerProyectosPorJuradoAsync(string documento);
 
     }
 }

@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Dapper;
+using Ediramos.Extension.Aplicacion.DTOs.Evaluador;
 using Ediramos.Extension.Dominio.Entidades;
 using Ediramos.Extension.Dominio.Repositorios;
 using Ediramos.Extension.Infraestructura.Persistencia;
@@ -52,6 +53,28 @@ namespace Ediramos.Extension.Infraestructura.Repositorios
 
             return result.ToList();
         }
+        public async Task<List<ProyectoJuradoCompleto>> ObtenerProyectosPorJuradoAsync(string documento)
+        {
+            using var connection = _connectionString.CreateSqlServerConnection();
 
+            using var multi = await connection.QueryMultipleAsync(
+                "OBTENERPROYECTOSJURADO",
+                new { Documento = documento },
+                commandType: CommandType.StoredProcedure
+            );
+
+            var proyectos = (await multi.ReadAsync<ProyectoJurado>()).ToList();
+            var internos = (await multi.ReadAsync<ParticipanteInterno>()).ToList();
+            var externos = (await multi.ReadAsync<ParticipanteExterno>()).ToList();
+
+            var resultado = proyectos.Select(p => new ProyectoJuradoCompleto
+            {
+                Proyecto = p,
+                ParticipantesInternos = internos.Where(i => i.IdProyecto == p.IdProyecto).ToList(),
+                ParticipantesExternos = externos.Where(e => e.IdProyecto == p.IdProyecto).ToList()
+            }).ToList();
+
+            return resultado;
+        }
     }
 }
